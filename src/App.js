@@ -1,15 +1,17 @@
-
+import React,{Suspense} from 'react';
 import './App.css';
-import Login from './components/Login';
-import Logout from './components/Logout';
+import LazyLoad from './lazyloading/Lazyload';
 import {useSelector} from 'react-redux';
 import {selectUser} from './features/userSlice';
-
+const Lazylogin=React.lazy(()=>import("./components/Login"));
+const Lazylogout=React.lazy(()=>import("./components/Logout"));
 function App() {
   const user = useSelector(selectUser);
   return (
     <div>
-      {user ? <Logout/> : <Login/>}
+    <Suspense fallback={<LazyLoad/>}>
+      {user ? <Lazylogout/> : <Lazylogin/>}
+      </Suspense>
     </div>
     )
   
